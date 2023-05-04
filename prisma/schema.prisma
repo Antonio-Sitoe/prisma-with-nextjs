@@ -10,18 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Courses {
-  id            String   @id @default(uuid())
-  name          String   @unique
-  description   String?
-  duration      Int
-  created_at    DateTime @default(now())
-  teacher       Teachers @relation(fields: [fk_id_teacher], references: [id])
-  fk_id_teacher String   @unique
-
-  @@map("courses")
-}
-
 model Teachers {
   id      String   @id @default(uuid())
   name    String   @unique
@@ -30,13 +18,57 @@ model Teachers {
   @@map("teachers")
 }
 
+model Courses {
+  id              String           @id @default(uuid())
+  name            String           @unique
+  description     String?
+  duration        Int
+  created_at      DateTime         @default(now())
+  teacher         Teachers         @relation(fields: [fk_id_teacher], references: [id])
+  fk_id_teacher   String           @unique
+  courses_modules CoursesModules[]
+
+  @@map("courses")
+}
+
 model Modules {
-  id          String   @id @default(uuid())
-  name        String   @unique
-  description String?
-  created_at  DateTime @default(now())
+  id              String           @id @default(uuid())
+  name            String           @unique
+  description     String?
+  created_at      DateTime         @default(now())
+  courses_modules CoursesModules[]
 
   @@map("modules")
+}
+
+model CoursesModules {
+  id            String   @id @default(uuid())
+  courses       Courses  @relation(fields: [fk_id_courses], references: [id])
+  modules       Modules  @relation(fields: [fk_id_modules], references: [id])
+  fk_id_courses String
+  fk_id_modules String
+  created_at    DateTime @default(now())
+  coursesId     String
+
+  @@map("courses_modules")
+}
+
+// Relacionamento 1 para muitos
+model Authors {
+  id    String  @id @default(uuid())
+  name  String  @unique
+  books Books[]
+
+  @@map("authors")
+}
+
+model Books {
+  id        String  @id @default(uuid())
+  name      String  @unique
+  author_id String
+  author    Authors @relation(fields: [author_id], references: [id])
+
+  @@map("books")
 }
 
 // 1 - depois de criar as tabelas usamos o comando:
