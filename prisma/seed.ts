@@ -14,6 +14,7 @@ import { find_by_relation } from "./src/search/find_by_relation";
 import { delete_item } from "./src/delete/delete";
 import { filter_StartWith } from "./src/filter/filter";
 import { filterOr } from "./src/filter/filterOr";
+import { create_pagination } from "./src/pagination/pagination";
 
 // createDataWithRelationship();
 // create_non_exist_teacher();
@@ -31,5 +32,6 @@ import { filterOr } from "./src/filter/filterOr";
 // delete_item();
 
 // filtros'
-filterOr();
+// filterOr();
 // filter_StartWith();
+create_pagination();
